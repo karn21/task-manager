@@ -23,7 +23,12 @@ function Task(props) {
           </div>
           <div className="col-sm-6 float-right">
             <button className="btn btn-sm btn-secondary">Edit</button>
-            <button className="btn btn-sm btn-danger ml-1">Remove</button>
+            <button
+              className="btn btn-sm btn-danger ml-1 "
+              onClick={() => props.handleDelete(task.id)}
+            >
+              Remove
+            </button>
           </div>
         </div>
       </td>

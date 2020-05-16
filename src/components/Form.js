@@ -1,15 +1,28 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { newTask } from "../actions/actions";
 
 export class Form extends Component {
   state = {
     title: "",
     description: "",
-    task: "",
   };
 
-  onChange = (e) => {
+  handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
+    });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { title, description } = this.state;
+    const task = { title, description };
+    console.log(task);
+    this.props.newTask(task);
+    this.setState({
+      title: "",
+      description: "",
     });
   };
 
@@ -18,7 +31,7 @@ export class Form extends Component {
       <div className="col-sm-10 offset-sm-1 col-md-6 offset-md-0 col-lg-5 offset-lg-1">
         <div className="card mt-4 bg-light">
           <div className="card-body">
-            <form action="">
+            <form action="" onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <label htmlFor="title">Title</label>
                 <input
@@ -28,7 +41,7 @@ export class Form extends Component {
                   placeholder="Task title"
                   name="title"
                   value={this.state.title}
-                  onChange={this.onChange}
+                  onChange={this.handleChange}
                 />
               </div>
               <div className="form-group">
@@ -40,7 +53,7 @@ export class Form extends Component {
                   placeholder="Task description"
                   name="description"
                   value={this.state.description}
-                  onChange={this.onChange}
+                  onChange={this.handleChange}
                 ></textarea>
               </div>
               <button className="btn btn-primary float-right">Add Task</button>
@@ -52,4 +65,4 @@ export class Form extends Component {
   }
 }
 
-export default Form;
+export default connect(null, { newTask })(Form);
