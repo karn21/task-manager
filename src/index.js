@@ -3,13 +3,24 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
+import { transition, Provider as AlertProvider } from "react-alert";
+import AlertTemplate from "react-alert-template-basic";
 import { store } from "./store";
+
+const options = {
+  position: "top center",
+  timeout: 4000,
+  offset: "20px",
+  transition: "scale",
+};
 
 ReactDOM.render(
   <Provider store={store}>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    <AlertProvider template={AlertTemplate} {...options}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </AlertProvider>
   </Provider>,
   document.getElementById("root")
 );

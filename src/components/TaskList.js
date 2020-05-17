@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Task from "./Task";
 import { connect } from "react-redux";
-import { getTasks, deleteTask } from "../actions/actions";
+import { getTasks, deleteTask } from "../actions/tasks";
 
 export class TaskList extends Component {
   state = {

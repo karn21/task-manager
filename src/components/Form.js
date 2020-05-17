@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { newTask } from "../actions/actions";
+import { newTask } from "../actions/tasks";
 
 export class Form extends Component {
   state = {
@@ -18,7 +18,6 @@ export class Form extends Component {
     e.preventDefault();
     const { title, description } = this.state;
     const task = { title, description };
-    console.log(task);
     this.props.newTask(task);
     this.setState({
       title: "",
@@ -31,6 +30,7 @@ export class Form extends Component {
       <div className="col-sm-10 offset-sm-1 col-md-6 offset-md-0 col-lg-5 offset-lg-1">
         <div className="card mt-4 bg-light">
           <div className="card-body">
+            <h2 className="mb-2">Add Task</h2>
             <form action="" onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <label htmlFor="title">Title</label>

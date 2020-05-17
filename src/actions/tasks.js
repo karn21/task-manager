@@ -1,5 +1,7 @@
 import axios from "axios";
 import { GET_TASKS, NEW_TASK, DELETE_TASK } from "./actionTypes";
+import { getErrors } from "./errors";
+import { createMessage } from "./messages";
 
 export const getTasks = () => (dispatch) => {
   axios
@@ -18,13 +20,16 @@ export const getTasks = () => (dispatch) => {
 export const newTask = (task) => (dispatch) => {
   axios
     .post("/api/tasks/", task)
-    .then((res) =>
+    .then((res) => {
+      dispatch(createMessage("Task Created"));
       dispatch({
         type: NEW_TASK,
         payload: res.data,
-      })
-    )
-    .catch((err) => console.log(err));
+      });
+    })
+    .catch((err) =>
+      dispatch(getErrors(err.response.data, err.response.status))
+    );
 };
 
 export const deleteTask = (id) => (dispatch) => {
