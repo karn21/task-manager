@@ -35,11 +35,12 @@ export const newTask = (task) => (dispatch) => {
 export const deleteTask = (id) => (dispatch) => {
   axios
     .delete(`/api/tasks/${id}`)
-    .then((res) =>
+    .then((res) => {
+      dispatch(createMessage("Task Removed"));
       dispatch({
         type: DELETE_TASK,
         payload: id,
-      })
-    )
+      });
+    })
     .catch((err) => console.log(err));
 };
