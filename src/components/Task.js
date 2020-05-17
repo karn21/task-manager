@@ -5,11 +5,16 @@ function Task(props) {
   return (
     <tr>
       <th>
-        {task.completed ? (
-          <i className="far fa-check-square text-success fa-lg"></i>
-        ) : (
-          <i className="far fa-times-circle text-danger fa-lg"></i>
-        )}
+        <div
+          onClick={() => props.handleToggleComplete(task.id)}
+          style={{ cursor: "pointer" }}
+        >
+          {task.completed ? (
+            <i className="far fa-check-square text-success fa-lg"></i>
+          ) : (
+            <i className="far fa-times-circle text-danger fa-lg"></i>
+          )}
+        </div>
       </th>
       <td>
         <h5>{task.title}</h5>

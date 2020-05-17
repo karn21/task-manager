@@ -13,7 +13,7 @@ export class alerts extends Component {
     const { error, alert, msg } = this.props;
     if (error !== prevProps.error) {
       if (error.msg.title) {
-        alert.error(`Name: ${error.msg.title[0]}`);
+        alert.error(`Title: ${error.msg.title[0]}`);
       }
       if (error.msg.description) {
         alert.error(`Description: ${error.msg.description[0]}`);

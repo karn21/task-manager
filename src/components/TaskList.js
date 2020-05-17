@@ -41,15 +41,17 @@ export class TaskList extends Component {
     e.preventDefault();
     const { title, description } = this.state;
     const task = { title, description };
-    this.state.editing
-      ? this.props.editTask(this.state.id, task)
-      : this.props.newTask(task);
-    this.setState({
-      title: "",
-      description: "",
-      id: "",
-      editing: false,
-    });
+    if (this.state.editing) {
+      this.props.editTask(this.state.id, task);
+      this.setState({
+        title: "",
+        description: "",
+        id: "",
+        editing: false,
+      });
+    } else {
+      this.props.newTask(task);
+    }
   };
 
   handleDelete = (id) => {
@@ -64,6 +66,12 @@ export class TaskList extends Component {
       description: task[0].description,
       editing: true,
     });
+  };
+
+  handleToggleComplete = (id) => {
+    const task = this.props.tasks.filter((task) => task.id === id)[0];
+    const newTask = { ...task, completed: !task.completed };
+    this.props.editTask(id, newTask);
   };
 
   cancelEdit = () => {
@@ -159,6 +167,7 @@ export class TaskList extends Component {
                       task={task}
                       handleDelete={this.handleDelete}
                       handleEdit={this.handleEdit}
+                      handleToggleComplete={this.handleToggleComplete}
                     ></Task>
                   ))}
                 </tbody>

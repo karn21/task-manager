@@ -55,5 +55,7 @@ export const editTask = (id, task) => (dispatch) => {
         payload: res.data,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) =>
+      dispatch(getErrors(err.response.data, err.response.status))
+    );
 };
