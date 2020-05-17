@@ -26,9 +26,29 @@ export class TaskList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      current: nextProps.tasks,
-    });
+    switch (this.state.tab) {
+      case "all":
+        this.setState({
+          current: nextProps.tasks,
+        });
+        break;
+      case "incomplete":
+        this.setState({
+          current: nextProps.tasks.filter((task) => task.completed === false),
+        });
+        break;
+      case "complete":
+        this.setState({
+          current: nextProps.tasks.filter((task) => task.completed === true),
+        });
+        break;
+      default:
+        return;
+    }
+
+    // this.setState({
+    //   current: nextProps.tasks,
+    // });
   }
 
   handleChange = (e) => {
