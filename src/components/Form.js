@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { newTask } from "../actions/tasks";
+import PropTypes from "prop-types";
 
 export class Form extends Component {
+  static propTypes = {
+    newTask: PropTypes.func.isRequired,
+  };
+
   state = {
     title: "",
     description: "",

@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withAlert } from "react-alert";
+import PropTypes from "prop-types";
 
 export class alerts extends Component {
+  static propTypes = {
+    error: PropTypes.object.isRequired,
+    msg: PropTypes.object.isRequired,
+  };
+
   componentDidUpdate(prevProps) {
     const { error, alert, msg } = this.props;
     if (error !== prevProps.error) {

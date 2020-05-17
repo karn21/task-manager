@@ -2,19 +2,57 @@ import React, { Component } from "react";
 import Task from "./Task";
 import { connect } from "react-redux";
 import { getTasks, deleteTask } from "../actions/tasks";
+import PropTypes from "prop-types";
 
 export class TaskList extends Component {
+  static propTypes = {
+    tasks: PropTypes.array.isRequired,
+    getTasks: PropTypes.func.isRequired,
+    deleteTask: PropTypes.func.isRequired,
+  };
+
   state = {
-    tasks: "",
-    current: "",
+    current: [],
+    tab: "all",
   };
 
   componentDidMount() {
     this.props.getTasks();
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      current: nextProps.tasks,
+    });
+  }
+
   handleDelete = (id) => {
     this.props.deleteTask(id);
+  };
+
+  handleFilter = (query) => {
+    switch (query) {
+      case "all":
+        this.setState({
+          current: this.props.tasks,
+          tab: "all",
+        });
+        break;
+      case "incomplete":
+        this.setState({
+          current: this.props.tasks.filter((task) => task.completed === false),
+          tab: "incomplete",
+        });
+        break;
+      case "complete":
+        this.setState({
+          current: this.props.tasks.filter((task) => task.completed === true),
+          tab: "complete",
+        });
+        break;
+      default:
+        return;
+    }
   };
 
   render() {
@@ -27,24 +65,40 @@ export class TaskList extends Component {
             </div>
             <ul className="nav nav-tabs">
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <a
+                  href="#"
+                  className={`nav-link ${this.state.tab === "all" && "active"}`}
+                  onClick={() => this.handleFilter("all")}
+                >
                   All
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" href="#">
+                <a
+                  href="#"
+                  className={`nav-link ${
+                    this.state.tab === "complete" && "active"
+                  }`}
+                  onClick={() => this.handleFilter("complete")}
+                >
                   Completed
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <a
+                  href="#"
+                  className={`nav-link ${
+                    this.state.tab === "incomplete" && "active"
+                  }`}
+                  onClick={() => this.handleFilter("incomplete")}
+                >
                   Incomplete
                 </a>
               </li>
             </ul>
             <table className="table table-striped">
               <tbody>
-                {this.props.tasks.map((task) => (
+                {this.state.current.map((task) => (
                   <Task
                     key={task.id}
                     task={task}
