@@ -1,42 +1,29 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { newTask } from "../actions/tasks";
 import PropTypes from "prop-types";
 
 export class Form extends Component {
   static propTypes = {
-    newTask: PropTypes.func.isRequired,
-  };
-
-  state = {
-    title: "",
-    description: "",
-  };
-
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    const { title, description } = this.state;
-    const task = { title, description };
-    this.props.newTask(task);
-    this.setState({
-      title: "",
-      description: "",
-    });
+    handleChange: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
   };
 
   render() {
+    const {
+      handleChange,
+      handleSubmit,
+      title,
+      description,
+      editing,
+      cancelEdit,
+    } = this.props;
     return (
       <div className="col-sm-10 offset-sm-1 col-md-6 offset-md-0 col-lg-5 offset-lg-1">
         <div className="card mt-4 bg-light">
           <div className="card-body">
-            <h2 className="mb-2">Add Task</h2>
-            <form action="" onSubmit={this.handleSubmit}>
+            <h2 className="mb-2">{editing ? "Update Task" : "Add Task"}</h2>
+            <form action="" onSubmit={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="title">Title</label>
                 <input
@@ -45,8 +32,8 @@ export class Form extends Component {
                   id="title"
                   placeholder="Task title"
                   name="title"
-                  value={this.state.title}
-                  onChange={this.handleChange}
+                  value={title}
+                  onChange={handleChange}
                 />
               </div>
               <div className="form-group">
@@ -57,11 +44,24 @@ export class Form extends Component {
                   rows="3"
                   placeholder="Task description"
                   name="description"
-                  value={this.state.description}
-                  onChange={this.handleChange}
+                  value={description}
+                  onChange={handleChange}
                 ></textarea>
               </div>
-              <button className="btn btn-primary float-right">Add Task</button>
+              {editing ? (
+                <div>
+                  <button className="btn btn-warning" onClick={cancelEdit}>
+                    Cancel
+                  </button>
+                  <button className="btn btn-success float-right">
+                    Update Task
+                  </button>
+                </div>
+              ) : (
+                <button className="btn btn-primary float-right">
+                  Add Task
+                </button>
+              )}
             </form>
           </div>
         </div>
@@ -70,4 +70,4 @@ export class Form extends Component {
   }
 }
 
-export default connect(null, { newTask })(Form);
+export default Form;

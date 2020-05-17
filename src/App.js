@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-
-import Form from "./components/Form";
 import TaskList from "./components/TaskList";
 import Alert from "./components/Alerts";
 
@@ -24,7 +22,6 @@ export class App extends Component {
         </div>
         <Alert></Alert>
         <div className="row">
-          <Form></Form>
           <TaskList></TaskList>
         </div>
       </div>

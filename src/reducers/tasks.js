@@ -1,4 +1,9 @@
-import { GET_TASKS, NEW_TASK, DELETE_TASK } from "../actions/actionTypes";
+import {
+  GET_TASKS,
+  NEW_TASK,
+  DELETE_TASK,
+  EDIT_TASK,
+} from "../actions/actionTypes";
 
 const initialState = {
   tasks: [],
@@ -20,6 +25,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         tasks: [...state.tasks.filter((task) => task.id !== action.payload)],
+      };
+    case EDIT_TASK:
+      return {
+        ...state,
+        tasks: state.tasks.map((task) => {
+          return task.id === action.payload.id ? action.payload : task;
+        }),
       };
     default:
       return state;
