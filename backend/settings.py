@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'task',
+    'knox',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -114,8 +116,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [],
-    'DEFAULT_PERMISSION_CLASSES': [],
+    'DEFAULT_AUTHENTICATION_CLASSES': ['knox.auth.TokenAuthentication',],
+    # 'DEFAULT_PERMISSION_CLASSES': [],
 }
 
 

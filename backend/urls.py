@@ -9,6 +9,7 @@ router.register('tasks',views.TaskView,'task')
 
 urlpatterns = [
 	path('',index,name="index"),
-    path('admin/', admin.site.urls),
     path('api/',include(router.urls)),
+    path('api/auth/', include('accounts.api.urls')),
+    path('admin/', admin.site.urls),
 ]
