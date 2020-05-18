@@ -4,6 +4,7 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
 import { Provider as AlertProvider } from "react-alert";
+import { BrowserRouter as Router } from "react-router-dom";
 import AlertTemplate from "react-alert-template-basic";
 import { store } from "./store";
 
@@ -17,9 +18,11 @@ const options = {
 ReactDOM.render(
   <Provider store={store}>
     <AlertProvider template={AlertTemplate} {...options}>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
+      <Router>
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      </Router>
     </AlertProvider>
   </Provider>,
   document.getElementById("root")

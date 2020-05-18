@@ -1,5 +1,11 @@
 import axios from "axios";
-import { GET_TASKS, NEW_TASK, DELETE_TASK, EDIT_TASK } from "./actionTypes";
+import {
+  GET_TASKS,
+  NEW_TASK,
+  DELETE_TASK,
+  EDIT_TASK,
+  CLEAR_TASKS,
+} from "./actionTypes";
 import { getErrors } from "./errors";
 import { createMessage } from "./messages";
 
@@ -58,4 +64,10 @@ export const editTask = (id, task) => (dispatch) => {
     .catch((err) =>
       dispatch(getErrors(err.response.data, err.response.status))
     );
+};
+
+export const clearTasks = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_TASKS,
+  });
 };

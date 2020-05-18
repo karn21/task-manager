@@ -18,6 +18,7 @@ export class alerts extends Component {
       if (error.msg.description) {
         alert.error(`Description: ${error.msg.description[0]}`);
       }
+      // alert.error(error.msg.detail);
     }
     if (msg !== prevProps.msg) {
       alert.success(msg.msg);

@@ -3,6 +3,7 @@ import {
   NEW_TASK,
   DELETE_TASK,
   EDIT_TASK,
+  CLEAR_TASKS,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -32,6 +33,11 @@ export default function (state = initialState, action) {
         tasks: state.tasks.map((task) => {
           return task.id === action.payload.id ? action.payload : task;
         }),
+      };
+    case CLEAR_TASKS:
+      return {
+        ...state,
+        tasks: [],
       };
     default:
       return state;
