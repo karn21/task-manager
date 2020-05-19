@@ -53,7 +53,7 @@ export class Form extends Component {
                   <button className="btn btn-warning" onClick={cancelEdit}>
                     Cancel
                   </button>
-                  <button className="btn btn-success float-right">
+                  <button type="submit" className="btn btn-success float-right">
                     Update Task
                   </button>
                 </div>

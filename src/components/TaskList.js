@@ -63,15 +63,15 @@ export class TaskList extends Component {
     const task = { title, description };
     if (this.state.editing) {
       this.props.editTask(this.state.id, task);
-      this.setState({
-        title: "",
-        description: "",
-        id: "",
-        editing: false,
-      });
     } else {
       this.props.newTask(task);
     }
+    this.setState({
+      title: "",
+      description: "",
+      id: "",
+      editing: false,
+    });
   };
 
   handleDelete = (id) => {
@@ -181,15 +181,19 @@ export class TaskList extends Component {
               </ul>
               <table className="table table-striped">
                 <tbody>
-                  {this.state.current.map((task) => (
-                    <Task
-                      key={task.id}
-                      task={task}
-                      handleDelete={this.handleDelete}
-                      handleEdit={this.handleEdit}
-                      handleToggleComplete={this.handleToggleComplete}
-                    ></Task>
-                  ))}
+                  {this.state.current.length ? (
+                    this.state.current.map((task) => (
+                      <Task
+                        key={task.id}
+                        task={task}
+                        handleDelete={this.handleDelete}
+                        handleEdit={this.handleEdit}
+                        handleToggleComplete={this.handleToggleComplete}
+                      ></Task>
+                    ))
+                  ) : (
+                    <h5 class="mt-3 text-info">No tasks here</h5>
+                  )}
                 </tbody>
               </table>
             </div>

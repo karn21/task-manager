@@ -9,9 +9,10 @@ import {
 import { getErrors } from "./errors";
 import { createMessage } from "./messages";
 
-export const getTasks = () => (dispatch) => {
+export const getTasks = () => (dispatch, getState) => {
+  const config = getConfig(getState);
   axios
-    .get("/api/tasks/")
+    .get("/api/tasks/", config)
     .then((res) => {
       dispatch({
         type: GET_TASKS,
@@ -19,13 +20,14 @@ export const getTasks = () => (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      getErrors(err.response.data, err.response.status);
     });
 };
 
-export const newTask = (task) => (dispatch) => {
+export const newTask = (task) => (dispatch, getState) => {
+  const config = getConfig(getState);
   axios
-    .post("/api/tasks/", task)
+    .post("/api/tasks/", task, config)
     .then((res) => {
       dispatch(createMessage("Task Created"));
       dispatch({
@@ -38,9 +40,10 @@ export const newTask = (task) => (dispatch) => {
     );
 };
 
-export const deleteTask = (id) => (dispatch) => {
+export const deleteTask = (id) => (dispatch, getState) => {
+  const config = getConfig(getState);
   axios
-    .delete(`/api/tasks/${id}`)
+    .delete(`/api/tasks/${id}/`, config)
     .then((res) => {
       dispatch(createMessage("Task Removed"));
       dispatch({
@@ -48,12 +51,13 @@ export const deleteTask = (id) => (dispatch) => {
         payload: id,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => getErrors(err.response.data, err.response.status));
 };
 
-export const editTask = (id, task) => (dispatch) => {
+export const editTask = (id, task) => (dispatch, getState) => {
+  const config = getConfig(getState);
   axios
-    .put(`/api/tasks/${id}/`, task)
+    .put(`/api/tasks/${id}/`, task, config)
     .then((res) => {
       dispatch(createMessage("Task Updated"));
       dispatch({
@@ -70,4 +74,18 @@ export const clearTasks = () => (dispatch) => {
   dispatch({
     type: CLEAR_TASKS,
   });
+};
+
+export const getConfig = (getState) => {
+  const token = getState().auth.token;
+
+  const headers = {
+    "Content-Type": "application/json",
+  };
+
+  if (token) {
+    headers["Authorization"] = `Token ${token}`;
+  }
+  const config = { headers };
+  return config;
 };

@@ -12,4 +12,5 @@ urlpatterns = [
     path('api/',include(router.urls)),
     path('api/auth/', include('accounts.api.urls')),
     path('admin/', admin.site.urls),
+    path('<path:resource>',index,name="index"),
 ]
