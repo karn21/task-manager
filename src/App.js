@@ -8,6 +8,7 @@ import Register from "./components/auth/Register";
 import { loadUser } from "./actions/auth";
 import { store } from "./store";
 import Navbar from "./components/Navbar";
+import PrivateRoute from "./components/PrivateRoute";
 
 export class App extends Component {
   componentDidMount() {
@@ -34,7 +35,7 @@ export class App extends Component {
           <Alert></Alert>
           <div className="row">
             <Switch>
-              <Route exact path="/" component={TaskList}></Route>
+              <PrivateRoute exact path="/" component={TaskList}></PrivateRoute>
               <Route path="/login" component={Login}></Route>
               <Route path="/register" component={Register}></Route>
             </Switch>

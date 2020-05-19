@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { register as authRegister } from "../../actions/auth";
+import { connect } from "react-redux";
+import {Redirect} from "react-router-dom"
 
 export class Register extends Component {
   state = {
@@ -30,79 +33,98 @@ export class Register extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log("submit");
+    if (this.state.password === this.state.password2) {
+      this.props.authRegister(
+        this.state.username,
+        this.state.email,
+        this.state.password
+      );
+    } else {
+      this.setState({
+        valid: false,
+      });
+    }
   };
 
   render() {
-    return (
-      <div className="col-sm-12 col-md-6 offset-md-3">
-        <div className="card mt-5">
-          <div className="card-body">
-            <form onSubmit={this.handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="username">Username</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="username"
-                  name="username"
-                  value={this.state.username}
-                  onChange={this.handleChange}
-                  placeholder="Enter username"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="username">Email</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="email"
-                  name="email"
-                  value={this.state.email}
-                  onChange={this.handleChange}
-                  placeholder="Enter Email"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  className="form-control"
-                  id="password"
-                  value={this.state.password}
-                  onChange={this.handleChange}
-                  placeholder="Password"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password2">Password</label>
-                <input
-                  type="password"
-                  name="password2"
-                  className="form-control"
-                  id="password2"
-                  value={this.state.password2}
-                  onChange={this.checkPassword}
-                  placeholder="Password"
-                />
-                {this.state.valid ? (
-                  ""
-                ) : (
-                  <small id="passwordHelp" className="form-text text-danger">
-                    The passwords do not match
-                  </small>
-                )}
-              </div>
-              <button type="submit" className="btn btn-primary">
-                Submit
-              </button>
-            </form>
+    if(this.props.isAuthenticated) {
+      return <Redirect to="/"></Redirect>
+    } else {
+      return (
+        <div className="col-sm-12 col-md-6 offset-md-3">
+          <div className="card mt-5">
+            <div className="card-body">
+              <form onSubmit={this.handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="username">Username</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="username"
+                    name="username"
+                    value={this.state.username}
+                    onChange={this.handleChange}
+                    placeholder="Enter username"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="username">Email</label>
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="email"
+                    name="email"
+                    value={this.state.email}
+                    onChange={this.handleChange}
+                    placeholder="Enter Email"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="password">Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    className="form-control"
+                    id="password"
+                    value={this.state.password}
+                    onChange={this.handleChange}
+                    placeholder="Password"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="password2">Password</label>
+                  <input
+                    type="password"
+                    name="password2"
+                    className="form-control"
+                    id="password2"
+                    value={this.state.password2}
+                    onChange={this.checkPassword}
+                    placeholder="Password"
+                  />
+                  {this.state.valid ? (
+                    ""
+                  ) : (
+                    <small id="passwordHelp" className="form-text text-danger">
+                      The passwords do not match
+                    </small>
+                  )}
+                </div>
+                <button type="submit" className="btn btn-primary">
+                  Submit
+                </button>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
+    
   }
 }
 
-export default Register;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { authRegister })(Register);

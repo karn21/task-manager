@@ -192,7 +192,7 @@ export class TaskList extends Component {
                       ></Task>
                     ))
                   ) : (
-                    <h5 class="mt-3 text-info">No tasks here</h5>
+                    <h5 className="mt-3 text-info">No tasks here</h5>
                   )}
                 </tbody>
               </table>
