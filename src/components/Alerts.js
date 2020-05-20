@@ -18,6 +18,12 @@ export class alerts extends Component {
       if (error.msg.description) {
         alert.error(`Description: ${error.msg.description[0]}`);
       }
+      if (error.msg.non_field_errors) {
+        alert.error(error.msg.non_field_errors[0]);
+      }
+      if (error.msg.username) {
+        alert.error(error.msg.username[0]);
+      }
       // alert.error(error.msg.detail);
     }
     if (msg !== prevProps.msg) {

@@ -2,8 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { login } from "../../actions/auth";
 import { Redirect } from "react-router-dom";
+import PropType from "prop-types";
 
 export class Login extends Component {
+  static propTypes = {
+    isAuthenticated: PropType.bool.isRequired,
+  };
+
   state = {
     username: "",
     password: "",
@@ -39,6 +44,7 @@ export class Login extends Component {
                     value={this.state.username}
                     onChange={this.handleChange}
                     placeholder="Enter username"
+                    required
                   />
                 </div>
                 <div className="form-group">
@@ -51,6 +57,7 @@ export class Login extends Component {
                     value={this.state.password}
                     onChange={this.handleChange}
                     placeholder="Password"
+                    required
                   />
                 </div>
                 <button type="submit" className="btn btn-primary">

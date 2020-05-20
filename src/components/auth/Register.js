@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { register as authRegister } from "../../actions/auth";
 import { connect } from "react-redux";
-import {Redirect} from "react-router-dom"
+import { Redirect } from "react-router-dom";
 
 export class Register extends Component {
   state = {
@@ -9,10 +9,30 @@ export class Register extends Component {
     email: "",
     password: "",
     password2: "",
-    valid: true,
+    username_error: true,
+    password_error: true,
   };
 
   handleChange = (e) => {
+    const { name, value } = e.target;
+    const userNameRegex = /^[a-z0-9_@\+\-.]*$/gim;
+
+    switch (name) {
+      case "username":
+        value.match(userNameRegex)
+          ? this.setState({ username_error: true })
+          : this.setState({ username_error: false });
+        break;
+      case "password":
+        value === this.state.password2
+          ? this.setState({ password_error: true })
+          : this.setState({ password_error: false });
+      case "password2":
+        value === this.state.password
+          ? this.setState({ password_error: true })
+          : this.setState({ password_error: false });
+    }
+
     this.setState({
       [e.target.name]: e.target.value,
     });
@@ -47,8 +67,8 @@ export class Register extends Component {
   };
 
   render() {
-    if(this.props.isAuthenticated) {
-      return <Redirect to="/"></Redirect>
+    if (this.props.isAuthenticated) {
+      return <Redirect to="/"></Redirect>;
     } else {
       return (
         <div className="col-sm-12 col-md-6 offset-md-3">
@@ -65,7 +85,16 @@ export class Register extends Component {
                     value={this.state.username}
                     onChange={this.handleChange}
                     placeholder="Enter username"
+                    required
                   />
+                  {!this.state.username_error ? (
+                    <small id="usernameHelp" className="form-text text-danger">
+                      Enter a valid username. This value may contain only
+                      letters, numbers, and @/./+/-/_ characters.
+                    </small>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <div className="form-group">
                   <label htmlFor="username">Email</label>
@@ -77,6 +106,7 @@ export class Register extends Component {
                     value={this.state.email}
                     onChange={this.handleChange}
                     placeholder="Enter Email"
+                    required
                   />
                 </div>
                 <div className="form-group">
@@ -89,6 +119,7 @@ export class Register extends Component {
                     value={this.state.password}
                     onChange={this.handleChange}
                     placeholder="Password"
+                    required
                   />
                 </div>
                 <div className="form-group">
@@ -99,10 +130,11 @@ export class Register extends Component {
                     className="form-control"
                     id="password2"
                     value={this.state.password2}
-                    onChange={this.checkPassword}
+                    onChange={this.handleChange}
                     placeholder="Password"
+                    required
                   />
-                  {this.state.valid ? (
+                  {this.state.password_error ? (
                     ""
                   ) : (
                     <small id="passwordHelp" className="form-text text-danger">
@@ -119,7 +151,6 @@ export class Register extends Component {
         </div>
       );
     }
-    
   }
 }
 
