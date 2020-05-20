@@ -2,8 +2,12 @@ import React, { Component } from "react";
 import { register as authRegister } from "../../actions/auth";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import PropType from "prop-types";
 
 export class Register extends Component {
+  static propTypes = {
+    isAuthenticated: PropType.bool.isRequired,
+  };
   state = {
     username: "",
     email: "",
@@ -32,23 +36,9 @@ export class Register extends Component {
           ? this.setState({ password_error: true })
           : this.setState({ password_error: false });
     }
-
     this.setState({
       [e.target.name]: e.target.value,
     });
-  };
-
-  checkPassword = (e) => {
-    this.handleChange(e);
-    if (this.state.password === e.target.value) {
-      this.setState({
-        valid: true,
-      });
-    } else {
-      this.setState({
-        valid: false,
-      });
-    }
   };
 
   handleSubmit = (e) => {

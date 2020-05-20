@@ -2,8 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { logout } from "../actions/auth";
 import { Link } from "react-router-dom";
+import PropType from "prop-types";
 
 export class Navbar extends Component {
+  static propTypes = {
+    auth: PropType.object.isRequired,
+    logout: PropType.func.isRequired,
+  };
+
   handleLogout = () => {
     this.props.logout();
   };

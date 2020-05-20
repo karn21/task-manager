@@ -45,10 +45,6 @@ export class TaskList extends Component {
       default:
         return;
     }
-
-    // this.setState({
-    //   current: nextProps.tasks,
-    // });
   }
 
   handleChange = (e) => {
